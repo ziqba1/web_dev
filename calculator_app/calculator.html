@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>Calculator</title>
+  </head>
+
+  <body>
+    <h1>Calculator</h1>
+    <span id="display"></span>
+    <div>
+      <button class="button number">0</button>
+      <button class="button number">1</button>
+      <button class="button number">2</button>
+      <button class="button number">3</button>
+      <button class="button number">4</button>
+      <button class="button number">5</button>
+      <button class="button number">6</button>
+      <button class="button number">7</button>
+      <button class="button number">8</button>
+      <button class="button number">9</button>
+    </div>
+    <div>
+      <button class="button operator">+</button>
+      <button class="button operator">-</button>
+      <button class="button operator">/</button>
+      <button class="button operator">*</button>
+    </div>
+
+    <script>
+      const numbersArr = Array.from(document.getElementsByClassName("number"));
+      const operatorsArr = Array.from(document.getElementsByClassName("operator"));
+      const numberStrs = "0123456789".split("");
+
+      const data = {
+        displayString: "0",
+        appendStringNum: (newChar) => {
+          if (newChar === ".") {
+            //decimal + 0?
+          }
+
+          if (newChar in numberStrs) {
+            if (data.displayString === "0") {
+              data.displayString = "";
+            }
+            data.displayString += newChar;
+          }
+          data.updateDisplay();
+        },
+        appendStringOperator: (newChar) => {
+          if (data.displayString.slice(-1)[0] in numberStrs) {
+            data.displayString += newChar;
+          }
+          data.updateDisplay();
+        },
+
+        updateDisplay: () => {
+          const display = document.getElementById("display");
+          display.innerText = data.displayString;
+        },
+      };
+
+      const display = document.getElementById("display");
+      display.innerText = data.displayString;
+
+      numbersArr.map((elem, i) => {
+        elem.addEventListener("click", (evt) => {
+          data.appendStringNum(elem.innerText);
+        });
+      });
+
+      operatorsArr.map((elem, i) => {
+        elem.addEventListener("click", (evt) => {
+          data.appendStringOperator(elem.innerText);
+        });
+      });
+    </script>
+  </body>
+</html>
