@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles.css';
+import './App.css';
 
 const colors = [
   { name: 'Gold', value: '#FFD700' },
