@@ -1,0 +1,25 @@
+body, html, #root {
+  margin: 0;
+  height: 100%;
+  font-family: times;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: background-color 0.5s ease;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 20px;
+  border: none;
+  border-radius: 19px;
+  background-color: white;
+}
+
+button:hover {
+  background-color: #ddd;
+}
