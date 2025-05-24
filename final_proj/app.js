@@ -1,0 +1,85 @@
+// Import Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    deleteDoc
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+
+// Your Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAFymnPlSaRcnbHbADAV9aqp3ZOuGA6N0c",
+    authDomain: "webdevfinal-3f5e4.firebaseapp.com",
+    projectId: "webdevfinal-3f5e4",
+    storageBucket: "webdevfinal-3f5e4.firebasestorage.app",
+    messagingSenderId: "536845210115",
+    appId: "1:536845210115:web:1d8a94ac5ec3ecc65a7436"
+  };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const docRef = doc(db, "collection", "FAsEfF7okylpOpgFcff4");
+
+// Load settings or create default if not found
+async function loadSettings() {
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    document.body.style.backgroundColor = data.color || 'white';
+    document.getElementById('display').textContent = data.number || 0;
+  } else {
+    const defaultData = { color: "white", number: 0 };
+    await setDoc(docRef, defaultData);
+    document.body.style.backgroundColor = defaultData.color;
+    document.getElementById('display').textContent = defaultData.number;
+  }
+}
+
+// Update Firestore document
+async function updateSettings(key, value) {
+  const docSnap = await getDoc(docRef);
+  const currentData = docSnap.exists() ? docSnap.data() : {};
+  const updatedData = { ...currentData, [key]: value };
+  await setDoc(docRef, updatedData);
+}
+
+// Delete the settings document
+document.getElementById('delete-btn').addEventListener('click', async () => {
+  const confirmDelete = confirm("Are you sure you want to delete all settings?");
+  if (confirmDelete) {
+    try {
+      await deleteDoc(docRef);
+      document.body.style.backgroundColor = 'white';
+      document.getElementById('display').textContent = '0';
+      alert("Settings deleted. They will be reset to defaults on next load.");
+    } catch (err) {
+      console.error("Error deleting settings:", err);
+      alert("Failed to delete settings. See console for details.");
+    }
+  }
+});
+
+// Color button logic
+document.querySelectorAll('.color-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const color = btn.getAttribute('data-color');
+    document.body.style.backgroundColor = color;
+    await updateSettings('color', color);
+  });
+});
+
+// Number button logic
+document.querySelectorAll('.number-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const number = btn.getAttribute('data-number');
+    document.getElementById('display').textContent = number;
+    await updateSettings('number', parseInt(number));
+  });
+});
+
+// Initial load
+loadSettings();
