@@ -17,19 +17,16 @@ body {
     cursor: pointer;
   }
   
-  /* Color buttons */
   .color-btn {
     border: 2px solid black;
     border-radius: 10px;
   }
   
-  /* Number buttons */
   .number-btn {
     border: 1px solid black;
     border-radius: 5px;
   }
   
-  /* Reset button style */
   #delete-btn {
     background-color: purple;
     color: white;
