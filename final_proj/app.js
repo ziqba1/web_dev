@@ -1,4 +1,3 @@
-// Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
     getFirestore,
@@ -9,7 +8,6 @@ import {
   } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 
-// Your Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAFymnPlSaRcnbHbADAV9aqp3ZOuGA6N0c",
     authDomain: "webdevfinal-3f5e4.firebaseapp.com",
@@ -19,12 +17,10 @@ const firebaseConfig = {
     appId: "1:536845210115:web:1d8a94ac5ec3ecc65a7436"
   };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const docRef = doc(db, "collection", "FAsEfF7okylpOpgFcff4");
 
-// Load settings or create default if not found
 async function loadSettings() {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -39,15 +35,17 @@ async function loadSettings() {
   }
 }
 
-// Update Firestore document
+// UPDATE
 async function updateSettings(key, value) {
+  // READ
   const docSnap = await getDoc(docRef);
   const currentData = docSnap.exists() ? docSnap.data() : {};
   const updatedData = { ...currentData, [key]: value };
+  // CREATE
   await setDoc(docRef, updatedData);
 }
 
-// Delete the settings document
+// DELETE
 document.getElementById('delete-btn').addEventListener('click', async () => {
   const confirmDelete = confirm("Are you sure you want to delete all settings?");
   if (confirmDelete) {
@@ -63,7 +61,7 @@ document.getElementById('delete-btn').addEventListener('click', async () => {
   }
 });
 
-// Color button logic
+// Color buttons
 document.querySelectorAll('.color-btn').forEach(btn => {
   btn.addEventListener('click', async () => {
     const color = btn.getAttribute('data-color');
@@ -72,7 +70,7 @@ document.querySelectorAll('.color-btn').forEach(btn => {
   });
 });
 
-// Number button logic
+// Number buttons
 document.querySelectorAll('.number-btn').forEach(btn => {
   btn.addEventListener('click', async () => {
     const number = btn.getAttribute('data-number');
